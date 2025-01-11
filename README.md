@@ -1,131 +1,127 @@
 # テーブル設計
-## users テーブル -------------------------------------------
+## user テーブル -------------------------------------------
 | Column             | Type       | Options                        |
 | ------------------ | ---------- | ------------------------------ |
-| id                 |            |                                |
-| name               | string     | null: false                    |
-| name-kana          | string     | null: false                    |
+| family_name        | string     | null: false                    |
+| personal_name      | string     | null: false                    |
+| family_name_kana   | string     | null: false                    |
+| personal_name_kana | string     | null: false                    |
 | nickname           | string     | null: false                    |
-| birthday           | integer    | null: false                    |
+| birthday           | date       | null: false                    |
 | email              | string     | null: false, unique: true      |
 | encrypted_password | string     | null: false                    |
-| items_id           | references | null: false, foreign_key: true |
-| purchases_id       | references | null: false, foreign_key: true |
 
 - has_many :items
-- has_many :purchases
+- has_many :purchase
 
 
-## items テーブル (imageについては、ActiveStorageで実装予定) -----
+## item テーブル (imageについては、ActiveStorageで実装予定) -----
 | Column       | Type       | Options                        |
 | ------------ | ---------- | -----------------------------  |
-| id           |            |                                |
 | name         | string     | null: false                    |
 | description  | text       | null: false                    |
 | price        | integer    | null: false                    |
-| category_id  | references | null: false, foreign_key: true |
-| condition_id | references | null: false, foreign_key: true |
-| shipping_id  | references | null: false, foreign_key: true |
-| users_id     | references | null: false, foreign_key: true |
-| purchases_id | references | null: false, foreign_key: true |
+| user         | references | null: false, foreign_key: true |
+| category_id  | integer    | null: false                    |
+| condition_id | integer    | null: false                    |
+| shipping_id  | integer    | null: false                    |
+| purchase_id  | references | null: false                    |
 
-- belong_to :users
-- has_one :categories
-- has_one :shipping
-- has_one :conditions
-- has_one :purchases
+- belong_to :user
+- belongs_to :category
+- belongs_to :shipping
+- belongs_to :condition
+- has_one :purchase
 
 
-## purchases テーブル----------------------------------------
+## purchase テーブル----------------------------------------
 | Column       | Type       | Options                        |
 | ------------ | ---------- | ------------------------------ |
-| id           |            |                                |
-| name         | string     | null: false                    |
-| address_id   | references | null: false, foreign_key: true |
-| items_id     | references | null: false, foreign_key: true |
+| user         | references | null: false, foreign_key: true |
+| item         | references | null: false, foreign_key: true |
 
-- belong_to :users
+- belong_to :user
 - belong_to :items
 - has_one :addresses
 
 
-## addresses テーブル----------------------------------------
+## address テーブル----------------------------------------
 | Column         | Type       | Options                        |
 | ---------------| ---------- | ------------------------------ |
-| id             |            |                                |
-| post-code      | integer    | null: false                    |
+| postcode       | string     | null: false                    |
 | area           | string     | null: false                    |
-| num-of-address | string     | null: false                    |
+| num_of_address | string     | null: false                    |
 | building       | string     | null: true                     |
-| phone-num      | integer    | null: false                    |
-| prefectures_id | references | null: false, foreign_key: true |
-| purchases_id   | references | null: false, foreign_key: true |
+| phone_num      | string     | null: false                    |
+| prefectures_id | integer    | null: false                    |
+| purchase       | references | null: false, foreign_key: true |
 
-- belong_to :purchases
+- belong_to :purchase
+- belongs_to :prefectures
+
+
+## shipping テーブル-----------------------------------------
+| Column           | Type       | Options                        |
+| ---------------- | ---------- | ------------------------------ |
+| item             | references | null: false, foreign_key: true |
+| deliveries_id    | integer    | null: false                    |
+| prefectures_id   | integer    | null: false                    |
+| shipping_day _id | integer    | null: false                    |
+
+- belong_to :items
+- has_one :deliveries
 - has_one :prefectures
+- has_one :shipping_day
 
 
-## prefectures テーブル--------------------------------------
+
+
+
+
+## (以下は、Activehash を用いるため削除。自分自身がイメージできるようにあえて残させてください。イメージが定着したら削除いたします。 m(_ _)m)
+
+## Active hash #############################################
+## prefecture テーブル--------------------------------------
 ##　(４７都道府県情報を登録。)
 | Column | Type       | Options                        |
 | -------| ---------- | ------------------------------ |
-| id     |            |                                |
 | name   | string     | null: false                    |
 
 - belong_to :shipping
 - belong_to :addresses
 
 
-## shipping テーブル-----------------------------------------
-| Column           | Type       | Options                        |
-| ---------------- | ---------- | ------------------------------ |
-| id               |            |                                |
-| items_id         | references | null: false, foreign_key: true |
-| deliveries_id    | references | null: false, foreign_key: true |
-| prefectures_id   | references | null: false, foreign_key: true |
-| shipping-day _id | references | null: false, foreign_key: true |
-
-- belong_to :items
-- has_one :deliveries
-- has_one :prefectures
-- has_one :shipping-days
-
-
-## deliveries テーブル---------------------------------------
+## delivery テーブル---------------------------------------
 ## (「着払い」「送料込み」を登録。)
 | Column | Type       | Options                        |
 | -------| ---------- | ------------------------------ |
-| id     |            |                                |
 | name   | string     | null: false                    |
 
 - belong_to :shipping
 
 
-## shipping-days テーブル-------------------------------------
+## shipping_day テーブル-------------------------------------
 ## (「1~2日」「2~3日」「4~7日」を登録)
 | Column | Type       | Options                        |
 | -------| ---------- | ------------------------------ |
-| id     |            |                                |
 | name   | string     | null: false                    |
 
 - belong_to :shipping
 
 
-## conditions テーブル----------------------------------------
+## condition テーブル----------------------------------------
 ## (「新品...」...を登録)
 | Column | Type       | Options                        |
 | -------| ---------- | ------------------------------ |
-| id     |            |                                |
 | name   | string     | null: false                    |
 
 - belong_to :shipping
 
 
-## categories テーブル----------------------------------------
+## category テーブル----------------------------------------
 ## (「メンズ」...を登録)
 | Column | Type       | Options                        |
 | -------| ---------- | ------------------------------ |
-| id     |            |                                |
 | name   | string     | null: false                    |
 
 - belong_to :items
