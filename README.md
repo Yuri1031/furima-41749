@@ -28,7 +28,7 @@
 | shipping_day_id | integer    | null: false                    |
 | user            | references | null: false, foreign_key: true |
 
-- belong_to :user
+- belongs_to :user
 - has_one :purchase
 
 
@@ -38,8 +38,8 @@
 | user         | references | null: false, foreign_key: true |
 | item         | references | null: false, foreign_key: true |
 
-- belong_to :user
-- belong_to :item
+- belongs_to :user
+- belongs_to :item
 - has_one :address
 
 
@@ -49,12 +49,12 @@
 | postcode       | string     | null: false                    |
 | area           | string     | null: false                    |
 | num_of_address | string     | null: false                    |
-| building       | string     | null: true                     |
+| building       | string     |                                |
 | phone_num      | string     | null: false                    |
 | prefecture_id  | integer    | null: false                    |
 | purchase       | references | null: false, foreign_key: true |
 
-- belong_to :purchase
+- belongs_to :purchase
 
 
 
