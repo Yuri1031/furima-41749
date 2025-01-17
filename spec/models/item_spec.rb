@@ -8,12 +8,6 @@ RSpec.describe Item, type: :model do
   end
 
   describe '商品出品/item情報' do
-    it 'userが紐づいていないと登録できない' do
-      @item.user = nil
-      @item.valid?
-      expect(@item.errors.full_messages).to include('User must exist')
-    end
-
     context 'item登録_成功' do
       it '条件を満たしている場合_登録可' do
         expect(@item).to be_valid
@@ -21,6 +15,12 @@ RSpec.describe Item, type: :model do
     end
 
     context 'item登録_失敗' do
+      it 'userが紐づいていないと登録できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
+      end
+
       it 'imageが空_登録不可(= image必須)' do
         @item.image = nil
         @item.valid?
@@ -78,28 +78,20 @@ RSpec.describe Item, type: :model do
       it 'priceが300未満では登録できない' do
         @item.price = 200
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include('Price は300〜9,999,999の間で入力してください')
       end
 
       it 'priceが9_999_999を超えると登録できない' do
         @item.price = 10_000_000
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include('Price は300〜9,999,999の間で入力してください')
       end
 
       it 'priceに半角数値以外が含まれると登録できない' do
-        @item.price = '5000'
+        @item.price = 'abc'
         @item.valid?
-        expect(@item.errors.full_messages)
+        expect(@item.errors.full_messages).to include('Price は300〜9,999,999の間で入力してください')
       end
-    end
-  end
-
-  describe '' do
-    context '' do
-    end
-
-    context '' do
     end
   end
 end
