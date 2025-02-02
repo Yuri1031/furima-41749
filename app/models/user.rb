@@ -4,8 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # has_many :items
-  # has_many :purchases
+  has_many :items
+  has_many :orders
 
   validates :family_name, presence: true, format: { with: /\A[^a-zA-Z0-9]+\z/ }
   validates :personal_name, presence: true, format: { with: /\A[^a-zA-Z0-9]+\z/ }
