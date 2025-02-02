@@ -12,7 +12,7 @@
 | encrypted_password | string     | null: false                    |
 
 - has_many :items
-- has_many :purchases
+- has_many :orders
 
 
 ## items テーブル (imageについては、ActiveStorageで実装予定) -----
@@ -29,11 +29,11 @@
 | user            | references | null: false, foreign_key: true |
 
 - belongs_to :user
-- has_one :purchase
+- has_one :order
 - has_one_attached:image
 
 
-## purchases テーブル----------------------------------------
+## orders テーブル----------------------------------------
 | Column       | Type       | Options                        |
 | ------------ | ---------- | ------------------------------ |
 | user         | references | null: false, foreign_key: true |
@@ -53,9 +53,9 @@
 | building       | string     |                                |
 | phone_num      | string     | null: false                    |
 | prefecture_id  | integer    | null: false                    |
-| purchase       | references | null: false, foreign_key: true |
+| order          | references | null: false, foreign_key: true |
 
-- belongs_to :purchase
+- belongs_to :order
 
 
 
