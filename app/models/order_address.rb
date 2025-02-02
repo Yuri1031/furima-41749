@@ -6,8 +6,7 @@ class OrderAddress
     validates :user_id
     validates :item_id
     validates :postcode, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: 'is invalid. Include hyphen(-)' }
-    validates :phone_num, numericality: { only_integer: true },
-                          length: { in: 10..11, message: 'must be 10 to 11 digits and only numbers allowed.' }
+    validates :phone_num, format: { with: /\A\d{10,11}\z/, message: 'must be 10 to 11 digits and only numbers allowed.' }
     validates :area
     validates :num_of_address
     validates :prefecture_id, numericality: { other_than: 0, message: "can't be blank" }

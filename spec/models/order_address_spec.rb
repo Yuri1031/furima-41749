@@ -72,5 +72,10 @@ RSpec.describe OrderAddress, type: :model do
       @order_address.valid?
       expect(@order_address.errors.full_messages).to include('Phone num must be 10 to 11 digits and only numbers allowed.')
     end
+    it 'phone_num(電話番号)に半角数字以外が含まれている場合、登録できないこと' do
+      @order_address.phone_num = 'abc１２３4567'
+      @order_address.valid?
+      expect(@order_address.errors.full_messages).to include('Phone num must be 10 to 11 digits and only numbers allowed.')
+    end
   end
 end
