@@ -23,6 +23,7 @@
       </span>
     </div>
 
+
     <% unless @item.order.present? %>
       <% if user_signed_in? && current_user.id == @item.user.id %>
          <%= link_to "商品の編集", edit_item_path, method: :get, class: "item-red-btn" %>
