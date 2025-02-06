@@ -20,4 +20,8 @@ class Item < ApplicationRecord
   validates :prefecture_id, presence: true, numericality: { other_than: 1, message: "can't be blank" }
   validates :shipping_day_id, presence: true, numericality: { other_than: 1, message: "can't be blank" }
   validates :image, presence: { message: "can't be blank" }
+
+  def sold?
+    order.present?
+  end
 end
