@@ -9,7 +9,7 @@ class OrderAddress
     validates :phone_num, format: { with: /\A\d{10,11}\z/, message: 'must be 10 to 11 digits and only numbers allowed.' }
     validates :area
     validates :num_of_address
-    validates :prefecture_id, numericality: { other_than: 0, message: "can't be blank" }
+    validates :prefecture_id, numericality: { other_than: 1, message: "can't be blank" }
     validates :token
   end
 
