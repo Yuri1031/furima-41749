@@ -13,4 +13,6 @@ class User < ApplicationRecord
   validates :personal_name_kana, presence: true, format: { with: /\A[\p{Katakana}ー－]+\z/ }
   validates :nickname, presence: true
   validates :birthday, presence: true
+
+  validates :password, format: { with: /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/, message: 'must include both letters and numbers' }
 end
